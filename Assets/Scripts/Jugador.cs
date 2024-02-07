@@ -14,13 +14,15 @@ public class Jugador : MonoBehaviour
     bool isJumping = false;
     [Range(1, 500)] public float potenciaSalto; //Potencia de salto
 
+    //Para la utilizacion del Animator del jugador
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         spRd = GetComponent<SpriteRenderer>();
-
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -46,7 +48,28 @@ public class Jugador : MonoBehaviour
             spRd.flipX = true;
         }
 
-        //Si se pullsa el botón de saltar (Jumop) y además ya no estoy saltando
+
+        //Movimiento de salto
+        if (isJumping)
+        {
+            animator.SetBool("isJumping", true);   
+        }
+        else
+        {
+            animator.SetBool("isJumping", false);
+        }
+
+        //Si no se mueve tendra una animacion y si se mueve tendra otra, lo hacemos con el isWalking que lo declaramos anteriormente en Animator
+        if (movimientoH != 0)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+        }
+
+        //Si se pullsa el botón de saltar (Jump) y además ya no estoy saltando
         if (Input.GetButton("Jump") && !isJumping)
         {
             //Añado una fuerza al RigidBody con un parámetro de entrada que es un vector de 
