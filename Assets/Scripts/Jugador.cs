@@ -17,12 +17,20 @@ public class Jugador : MonoBehaviour
     //Para la utilizacion del Animator del jugador
     private Animator animator;
 
+    //Para controlar cuando coincida con enemigos
+    public bool vulnerable;
+
+    //Puntuación del PowerUp
+    public int puntuacion;
+
     // Start is called before the first frame update
     void Start()
     {
+        vulnerable = true;
         rb2d = GetComponent<Rigidbody2D>();
         spRd = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        puntuacion = 0;
     }
 
     // Update is called once per frame
@@ -92,5 +100,28 @@ public class Jugador : MonoBehaviour
             //Reducimos la velocidad en el eje y a 0 (le quitamos la fuerza de salto)
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
         }
+    }
+
+    public void QuitarVida()
+    {
+        if (vulnerable)
+        {
+            vulnerable = false;
+            Invoke("HacerVulnerable", 1f); //Cuando pase un segundo vuelves a hacerle vulnerable
+            spRd.color = Color.red;
+        }
+    }
+
+    public void IncrementarPuntos(int cantidad)
+    {
+        puntuacion += cantidad;
+        Debug.Log("Has codigo: "+cantidad);
+        Debug.Log("Total acumulado: " + puntuacion);
+    }
+
+    private void HacerVulnerable()
+    {
+        vulnerable = true;
+        spRd.color = Color.white;
     }
 }
