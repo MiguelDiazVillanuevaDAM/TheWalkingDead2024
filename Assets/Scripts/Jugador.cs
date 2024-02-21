@@ -20,8 +20,21 @@ public class Jugador : MonoBehaviour
     //Para controlar cuando coincida con enemigos
     public bool vulnerable;
 
+    //Control de vidas con GameManager
+    private GameManager gameManager;
+
     //Puntuación del PowerUp
     public int puntuacion;
+
+    //Control del Canvas
+    public Canvas canvas;
+    private ControlHUD hud;
+
+    //Control de tiempo
+    public int tiempoempleado; //Pasar a private tras las pruebas
+    public float tiempoInicio; //Pasar a private tras las pruebas
+
+    public int tiempoNivel;
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +44,25 @@ public class Jugador : MonoBehaviour
         spRd = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         puntuacion = 0;
+        //Busco mi objeto GameManager
+        gameManager=FindObjectOfType<GameManager>();
+
+        tiempoInicio = Time.time;
+        hud=canvas.GetComponent<ControlHUD>();
+        hud.setVidasTXT(gameManager.getVidas());
     }
 
     // Update is called once per frame
     void Update()
     {
+        tiempoempleado = (int)(Time.time-tiempoInicio);
+
+            if ((tiempoNivel - tiempoempleado < 0))
+            {
+                //Fin del juego
+            }
+        hud.setTiempoTXT(tiempoNivel-tiempoempleado);
+
         //Averiguo si estoy parado (0), moviendome hacia la derecha (1) o moviendome hacia la izquierda (-1)
         float movimientoH = Input.GetAxisRaw("Horizontal");
 
@@ -107,6 +134,13 @@ public class Jugador : MonoBehaviour
         if (vulnerable)
         {
             vulnerable = false;
+            gameManager.decrementarVidas();
+            hud.setVidasTXT(gameManager.getVidas());
+
+                if (gameManager.getVidas() == 0)
+                {
+                    //Fin del juego
+                }
             Invoke("HacerVulnerable", 1f); //Cuando pase un segundo vuelves a hacerle vulnerable
             spRd.color = Color.red;
         }
@@ -115,8 +149,9 @@ public class Jugador : MonoBehaviour
     public void IncrementarPuntos(int cantidad)
     {
         puntuacion += cantidad;
-        Debug.Log("Has codigo: "+cantidad);
-        Debug.Log("Total acumulado: " + puntuacion);
+        hud.setPuntuacionTXT(puntuacion);
+        //Debug.Log("Has codigo: "+cantidad);
+        //Debug.Log("Total acumulado: " + puntuacion);
     }
 
     private void HacerVulnerable()
