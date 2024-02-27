@@ -30,6 +30,11 @@ public class Jugador : MonoBehaviour
     public Canvas canvas;
     private ControlHUD hud;
 
+    //Movimiento Joystick
+    public Joystick joystick;
+    private float movimientoH;
+    private float movimientoV;
+
     //Control de tiempo
     public int tiempoempleado; //Pasar a private tras las pruebas
     public float tiempoInicio; //Pasar a private tras las pruebas
@@ -64,8 +69,16 @@ public class Jugador : MonoBehaviour
         hud.setTiempoTXT(tiempoNivel-tiempoempleado);
 
         //Averiguo si estoy parado (0), moviendome hacia la derecha (1) o moviendome hacia la izquierda (-1)
-        float movimientoH = Input.GetAxisRaw("Horizontal");
+        //float movimientoH = Input.GetAxisRaw("Horizontal");
 
+        if ((joystick.Horizontal >= .2f) | (joystick.Horizontal <= -.2f))
+        {
+            movimientoH = joystick.Horizontal;
+        }
+        else
+        {
+            movimientoH = 0f;
+        }
         //Eje x:
         //movimientoH: Para indicar la direccion del movimiento
         //Eje y:
@@ -105,15 +118,22 @@ public class Jugador : MonoBehaviour
         }
 
         //Si se pullsa el botón de saltar (Jump) y además ya no estoy saltando
-        if (Input.GetButton("Jump") && !isJumping)
-        {
+        //movimientoV = joystick.Vertical;
+        //if (Input.GetButton("Jump") && !isJumping)
+        //if (movimientoV>=.5f && !isJumping)
+        //{
             //Añado una fuerza al RigidBody con un parámetro de entrada que es un vector de 
             //2 dimensiones en el cual la x se queda en 0 y la y pasa a 1
             //Multiplico el eje y por la potencia de salto ya que x=0
-            rb2d.AddForce(Vector2.up * potenciaSalto);
+           // rb2d.AddForce(Vector2.up * potenciaSalto);
             //Indico que estoy saltando
-            isJumping = true;
-        }
+            //isJumping = true;
+        //}
+        //else
+        //{
+            //Si usamos el joystick ponemos este else
+            //movimientoV = 0f;
+        //}
 
 
     }
@@ -129,6 +149,15 @@ public class Jugador : MonoBehaviour
         }
     }
 
+    public void onBotonSaltar()
+    {
+        if (!isJumping)
+        {
+            rb2d.AddForce(Vector2.up * potenciaSalto);
+            //Indico que estoy saltando
+            isJumping = true;
+        }
+    }
     public void QuitarVida()
     {
         if (vulnerable)

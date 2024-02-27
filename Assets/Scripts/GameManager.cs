@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager");
         DontDestroyOnLoad(gameManager);
-        cambiarEscena("Plataforma1");
+        cambiarEscena("Menu");
     }
 
     // Update is called once per frame

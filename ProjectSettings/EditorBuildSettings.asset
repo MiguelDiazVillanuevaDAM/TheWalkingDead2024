@@ -9,11 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Preload.unity
     guid: 4bd9a2b039b92a14fa50129da196b60b
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: a4d06ecc0c4417f4b911b02aa3fa0613
+  - enabled: 1
     path: Assets/Scenes/Plataforma1.unity
     guid: 7947491dbe08a8347bc45bc6a961ce72
   - enabled: 1
     path: Assets/Scenes/Escena2.unity
     guid: 1feae580769c02346a18fe5dbe3115f4
+  - enabled: 1
+    path: Assets/Scenes/Creditos.unity
+    guid: 1d0b65906258a3c4d9ace31977c546ca
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 470e58a4daddd5a49981d22bfd282f5b, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: a6f6b572845efe2418f9dbf0b932ca88, type: 2}
