@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Jugador : MonoBehaviour
 {
+
+    private ControlAudio controlAudio;
     //Movimiento del jugador
     [Range(1, 10)] public float velocidad;
     Rigidbody2D rb2d;
@@ -55,6 +58,8 @@ public class Jugador : MonoBehaviour
         tiempoInicio = Time.time;
         hud=canvas.GetComponent<ControlHUD>();
         hud.setVidasTXT(gameManager.getVidas());
+
+        controlAudio=FindObjectOfType<ControlAudio>();
     }
 
     // Update is called once per frame
@@ -111,6 +116,7 @@ public class Jugador : MonoBehaviour
         if (movimientoH != 0)
         {
             animator.SetBool("isWalking", true);
+            controlAudio.SeleccionAudio(0, 1f);
         }
         else
         {
